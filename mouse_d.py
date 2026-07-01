@@ -2,7 +2,6 @@ import pygame
 import math
 pygame.init()
 
-running = True
 drawing = False
 
 shapes = {"vline":False,
@@ -15,13 +14,7 @@ shapes = {"vline":False,
 #storing location values --> tuples in list
 mouse_loc = []
 
-#setting the screen size to the user screen size
-screen_size = pygame.display.get_desktop_sizes()
-screen = pygame.display.set_mode(screen_size[0],pygame.FULLSCREEN )
-pygame.display.set_caption("Mouse Draw")
-
-
-def drawing_line(screen,start_pos,current_pos):
+def drawing_lines(screen,start_pos,current_pos):
     dx=current_pos[0]-start_pos[0]
     dy=current_pos[1]-start_pos[1]
     #number of circles bw the line , increase if drawing big / more circles needed
@@ -96,7 +89,7 @@ def checkcircle():
         shapes["circle"] = True
 
 
-def detection():
+def detection(screen):
     global corner,shapes
 
     #line is too small to detect
@@ -116,6 +109,7 @@ def detection():
      #check if the line is too small
     if hor_tot < 50 and ver_tot < 50:
         print("The line is too small")
+        screen.fill((0,0,0))
         return
     
     checkcorner()
@@ -137,7 +131,7 @@ def detection():
         if corner == 2:
             print("Shape: Triangle")
             return "triangle"
-        elif corner == range(3,6):
+        elif 3 <= corner <= 5:
             print("Shape: Rectangle")
             return "rectangle"
         elif corner >5:
